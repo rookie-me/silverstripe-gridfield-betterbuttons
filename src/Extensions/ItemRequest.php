@@ -12,6 +12,7 @@ use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormRequestHandler;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\ORM\DataExtension;
@@ -223,7 +224,7 @@ class ItemRequest extends DataExtension
      */
     public function doPublishAndAdd($data, $form)
     {
-        return $this->publish($data, $form, $this->owner, $this->owner->Link('addnew'));
+        return $this->publish($data, $form, $this->owner, null, $this->owner->Link('addnew'));
     }
 
     /**
@@ -235,7 +236,7 @@ class ItemRequest extends DataExtension
     public function doPublishAndClose($data, $form)
     {
         Controller::curr()->getResponse()->addHeader('X-Pjax', 'Content');
-        return $this->publish($data, $form, $this->owner, $this->getBackLink());
+        return $this->publish($data, $form, $this->owner, null, $this->getBackLink());
     }
 
     /**
@@ -317,13 +318,14 @@ class ItemRequest extends DataExtension
     }
 
     /**
-     * @param  array       $data
-     * @param  Form        $form
-     * @param  HTTPRequest $request
-     * @param  string      $redirectURL
+     * @param  array                $data
+     * @param  Form                 $form
+     * @param  HTTPRequest          $request
+     * @param  FormRequestHandler   $requestHandler
+     * @param  string               $redirectURL
      * @return DBHTMLText|HTTPResponse|ViewableData_Customised
      */
-    public function publish(array $data, Form $form, HTTPRequest $request = null, $redirectURL = null)
+    public function publish(array $data, Form $form, HTTPRequest $request = null, $requestHandler = null, $redirectURL = null)
     {
         /* @var DataObject|DataObjectExtension|RecursivePublishable $record */
         $record = $this->owner->getRecord();
