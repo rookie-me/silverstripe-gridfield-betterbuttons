@@ -44,7 +44,7 @@ $.entwine('ss', function($) {
 
 		onadd: function() {
 			this.find("li > button").each(function() {
-				$(this).button('destroy');
+				$(this).button().button('destroy');
 			});
 
 			this._super();
