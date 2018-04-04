@@ -137,7 +137,7 @@ class ItemRequest extends DataExtension
 
 
         if ($form->Fields()->hasTabSet()) {
-            $form->Fields()->findOrMakeTab('Root')->setTemplate(TabSet::class);
+            $form->Fields()->findOrMakeTab('Root')->setTemplate('SilverStripe\\Forms\\CMSTabSet');
             $form->addExtraClass('cms-tabset');
         }
 
